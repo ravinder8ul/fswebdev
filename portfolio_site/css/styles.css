@@ -4,8 +4,9 @@
   -box-sizing: border-box;
 }
 
-html, body {
-  font-family: 'Source Sans Pro', sans-serif;
+html,
+body {
+  font-family: "Source Sans Pro", sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -29,8 +30,8 @@ h3 {
    height: 100px;
    z-index: 1;
    -webkit-box-shadow: 0px 3px 3px 0px rgba(100, 100, 100, 0.75);
-   -moz-box-shadow:    0px 3px 3px 0px rgba(100, 100, 100, 0.75);
-   box-shadow:         0px 3px 3px 0px rgba(100, 100, 100, 0.75);
+   -moz-box-shadow: 0px 3px 3px 0px rgba(100, 100, 100, 0.75);
+   box-shadow: 0px 3px 3px 0px rgba(100, 100, 100, 0.75);
  }
 
 .header__inner {
@@ -63,13 +64,13 @@ h3 {
   text-align: right;
   font-weight: 800;
   font-size: 18pt;
-  color: #252F46;
+  color: #252f46;
 }
 .title {
   text-align: right;
   font-weight: 800;
   font-size: 12pt;
-  color: #252F46;
+  color: #252f46;
 }
 
 /*
@@ -90,7 +91,7 @@ Content
 
 .short-bio {
   text-align: center;
-  color: #666D7D;
+  color: #666d7d;
 }
 
 .flex-container {
@@ -115,7 +116,7 @@ Content
 }
 
 .main-item {
-  color: #252F46;
+  color: #252f46;
   margin-bottom: 20px;
   margin-left: 5px;
   margin-right: 5px;
@@ -144,15 +145,15 @@ Content
 
 @keyframes animationFrames{
   0% {
-    opacity:0;
+    opacity: 0;
   }
   100% {
-    opacity:1;
+    opacity: 1;
   }
 }
 
 .project {
-  margin-top: 0px;
+  margin-top: 0;
   width: 300px;
 }
 
@@ -164,10 +165,10 @@ Content
   margin-left: auto;
   margin-right: auto;
   text-decoration: none;
-  color: #252F46;
+  color: #252f46;
 }
 
 .project > p {
-  margin-top: 0px;
+  margin-top: 0;
   width: 300px;
 }
