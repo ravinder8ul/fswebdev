@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import psycopg2
 import datetime
 
@@ -30,7 +31,7 @@ popularAuthorsSQL = (
 
 # Query for days with more than 1% of requests lead to errors
 errorRequestsSQL = (
-    " SELECT FILTER.day, FILTER.pct "
+    " SELECT to_char(FILTER.day, 'FMMonth FMDD, YYYY'), FILTER.pct "
     " FROM "
     " (SELECT ALL_RQ.day AS day, "
     " 100.0 * BAD_RQ.num / ALL_RQ.num AS pct "
@@ -62,14 +63,14 @@ print("#####    Most popular 3 articles of all time  ##### ##### ##### #####")
 
 results = get_results(popularArticlesSQL)
 for row in results:
-    print('"' + str(row[0]) + '"' + ' - ' + str(row[1]) + ' views')
+    print('"{}" - {} views'.format(row[0], row[1]))
 
 print
 print("#####    Most popular article authors of all time   ##### ##### #####")
 
 results = get_results(popularAuthorsSQL)
 for row in results:
-    print(str(row[0]) + ' - ' + str(row[1]) + ' views')
+    print('{} - {} views'.format(row[0], row[1]))
 
 print
 print("#####    Days with more than 1% of requests lead to errors ##### ####")
@@ -77,4 +78,4 @@ print("#####    Days with more than 1% of requests lead to errors ##### ####")
 results = get_results(errorRequestsSQL)
 for row in results:
     error_pcnt = str("{0:.2f}".format(round(row[1], 2)))
-    print(str(row[0].strftime('%b %d, %Y')) + ' - ' + error_pcnt + '% errors')
+    print(str(row[0]) + ' - ' + error_pcnt + '% errors')
