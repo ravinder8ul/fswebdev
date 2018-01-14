@@ -1,0 +1,14 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+<div>
+	<h3> {{item.title}}</h3>
+	<textarea>{{item.description}}</textarea>
+	<div>
+		{% if can_edit %}
+		    <a href='{{url_for('edit_category_item', item_name = item.title, item_id = item.id)}}'>Edit</a> |
+			<a href="{{url_for('delete_category_item', item_name = item.title, item_id = item.id)}}">Delete</a>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}
