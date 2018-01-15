@@ -44,7 +44,7 @@
 		{% endif %}
 		<h2>Latest Items</h2>
 			{% for item in items %}
-				<a href = "{{url_for('show_category_item', item_name = item.title)}}">
+				<a href = "{{url_for('show_category_item', category_name = item.category.name, item_name = item.title)}}">
 					<h4>{{item.title}} <i>({{ item.category.name }})</i></h4>
 				</a>
 			{% endfor %}

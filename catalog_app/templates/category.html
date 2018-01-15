@@ -44,7 +44,7 @@
 
 		<h2>{{ category.name }} Items ({{ items|length }} item(s))</h2>
 		{% for item in items %}
-			<a href = "{{url_for('show_category_item', item_name = item.title)}}">
+			<a href = "{{url_for('show_category_item', category_name=category.name, item_name = item.title)}}">
 				<h4>{{item.title}} <i>({{ item.category.name }})</i></h4>
 			</a>
 		{% endfor %}
