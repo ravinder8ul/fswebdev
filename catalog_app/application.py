@@ -4,7 +4,8 @@ from sqlalchemy.orm import sessionmaker
 from database_setup import Base, User, Category, CategoryItem
 
 from flask import session as login_session
-import random, string
+import random
+import string
 
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
@@ -64,6 +65,9 @@ def get_catalog():
 # create a new category
 @app.route('/catalog/new/', methods=['GET', 'POST'])
 def new_category():
+    if login_session.get('user_id') is None:
+        return redirect(url_for('show_login'))
+
     if request.method == 'POST':
         category = Category(name=request.form['name'])
         session.add(category)
@@ -82,17 +86,20 @@ def show_category(category_id):
     category = session.query(Category).filter_by(id=category_id).one()
     items = session.query(CategoryItem).filter_by(category_id=category_id).all()
 
-    return render_template('category.html', items=items, category=category, categories=categories)
+    return render_template('category.html', items=items, category=category,
+                           categories=categories)
 
 
 @app.route('/catalog/<string:category_name>/<string:item_name>/view')
 def show_category_item(category_name, item_name):
     category = session.query(Category).filter_by(name=category_name).one()
 
-    item = session.query(CategoryItem).filter_by(category_id=category.id, title=item_name).one()
+    item = session.query(CategoryItem).filter_by(category_id=category.id,
+                                                 title=item_name).one()
     can_edit = can_user_edit(item)
 
-    return render_template('showcategoryitem.html', item=item, can_edit=can_edit)
+    return render_template('showcategoryitem.html', item=item,
+                           can_edit=can_edit)
 
 
 def can_user_edit(item):
@@ -103,18 +110,22 @@ def can_user_edit(item):
     return can_edit
 
 
-@app.route('/catalog/item/new', methods=['GET','POST'])
+@app.route('/catalog/item/new', methods=['GET', 'POST'])
 def add_category_item():
     return new_category_item(None)
 
 
-@app.route('/catalog/<string:category_name>/item/new', methods=['GET','POST'])
+@app.route('/catalog/<string:category_name>/item/new', methods=['GET', 'POST'])
 def new_category_item(category_name):
+    if login_session.get('user_id') is None:
+        return redirect(url_for('show_login'))
+
     if request.method == 'POST':
         user_id = login_session['user_id']
         category_id = request.form['category_id']
         category = session.query(Category).filter_by(id=category_id).one()
-        new_item = CategoryItem(title=request.form['name'], description=request.form['description'],
+        new_item = CategoryItem(title=request.form['name'],
+                                description=request.form['description'],
                                category_id=category.id, user_id=user_id)
         session.add(new_item)
         session.commit()
@@ -123,11 +134,15 @@ def new_category_item(category_name):
         return render_template('showcategoryitem.html', item=new_item, can_edit=True)
     else:
         categories = session.query(Category).order_by(asc(Category.name))
-        return render_template('newcategoryitem.html', category_name=category_name, categories=categories)
+        return render_template('newcategoryitem.html',
+                               category_name=category_name, categories=categories)
 
 
-@app.route('/catalog/<string:item_name>/<int:item_id>/edit', methods=['GET','POST'])
+@app.route('/catalog/<string:item_name>/<int:item_id>/edit', methods=['GET', 'POST'])
 def edit_category_item(item_name, item_id):
+    if login_session.get('user_id') is None:
+        return redirect(url_for('show_login'))
+
     edited_item = session.query(CategoryItem).filter_by(id=item_id).one()
     user_id = login_session['user_id']
 
@@ -151,14 +166,20 @@ def edit_category_item(item_name, item_id):
             return show_category(edited_item.category_id)
         else:
             categories = session.query(Category).order_by(asc(Category.name))
-            return render_template('editcategoryitem.html', item=edited_item, categories=categories, can_edit=True)
+            return render_template('editcategoryitem.html',
+                                   item=edited_item, categories=categories,
+                                   can_edit=True)
     else:
         flash('You cannot change the Catalog Item: %s' % (item_name))
-        return render_template('showcategoryitem.html', item=edited_item, can_edit=False)
+        return render_template('showcategoryitem.html', item=edited_item,
+                               can_edit=False)
 
 
-@app.route('/catalog/<string:item_name>/<int:item_id>/delete', methods=['GET','POST'])
+@app.route('/catalog/<string:item_name>/<int:item_id>/delete', methods=['GET', 'POST'])
 def delete_category_item(item_name, item_id):
+    if login_session.get('user_id') is None:
+        return redirect(url_for('show_login'))
+
     item_to_delete = session.query(CategoryItem).filter_by(id=item_id).one()
     user_id = login_session['user_id']
     if user_id is not None and user_id == item_to_delete.user_id:
@@ -169,10 +190,12 @@ def delete_category_item(item_name, item_id):
             flash('Catalog Item: %s, successfully deleted' % (item_to_delete.title))
             return show_category(item_to_delete.category_id)
         else:
-            return render_template('deletecategoryitem.html', item=item_to_delete, can_edit=True)
+            return render_template('deletecategoryitem.html',
+                                   item=item_to_delete, can_edit=True)
     else:
         flash('You cannot change the Catalog Item: %s' % (item_name))
-        return render_template('showcategoryitem.html', item=item_to_delete, can_edit=False)
+        return render_template('showcategoryitem.html',
+                               item=item_to_delete, can_edit=False)
 
 
 @app.route('/fbconnect', methods=['POST'])
@@ -377,7 +400,8 @@ def gdisconnect():
 # User Helper Functions
 
 def create_user(login_session):
-    new_user = User(name=login_session['username'], email=login_session['email'], picture=login_session['picture'])
+    new_user = User(name=login_session['username'], email=login_session['email'],
+                    picture=login_session['picture'])
     session.add(new_user)
     session.commit()
     user = session.query(User).filter_by(email=login_session['email']).one()
