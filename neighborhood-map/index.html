@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<meta charset="utf-8">
+  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  	<title>New York City Midtown</title>
+
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="css/styles.css">
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-light bg-light justify-content-between">
+  		<a class="navbar-brand">My Neighborhood</a>
+  		<form class="form-inline">
+    		<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" data-bind="textInput: searchLocation, valueUpdate: 'afterkeydown'">
+    		<button class="btn btn-outline-success my-2 my-sm-0" type="button">Go!</button>
+  		</form>
+    </nav>
+
+    <main class="container-fluid">
+      <div class="row">
+        <div id="map"></div>
+        <div class="col-md-3 col-md-offset-9 collapsed in" id="navbarSupportedContent">
+          <div class="sidenav">
+            <div class="list-group" data-bind="foreach: filteredLocations">
+                <a href="#" class="list-group-item list-group-item-action" data-bind="text: title, click: show"></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- include java script files used -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="js/lib/knockout-3.4.2.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/locations.js"></script>
+    <script async defer
+        src=
+        "https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyBUO8t3z9tZtLjJg7vfPEjVsrMK_4q4sJs&v=3&callback=initMap">
+    </script>
+  </body>
+</html>
