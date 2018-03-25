@@ -199,3 +199,7 @@ function populateInfoWindow(marker, infowindow) {
       infowindow.open(map, marker);
   }
 }
+
+function errorHandler() {
+  alert('Failed to retrieve Google Maps');
+}
