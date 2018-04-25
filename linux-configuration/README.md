@@ -114,9 +114,17 @@ application.secret_key = 'supersecretkey'
 
 8. While in virtual environment install Flask and few other packages:
   - `$ sudo apt-get install python-pip`
-  - `$ sudo pip install Flask`
-  - `$ sudo pip install httplib2 oauth2client sqlalchemy psycopg2 sqlaclemy_utils requests render_template redirect`
-
+  - `$ pip install Flask`
+  - `$ pip install httplib2`
+  - `$ pip install requests`
+  - `$ pip install psycopg2`
+  - `$ pip install httplib2`
+  - `$ pip install oauth2client`
+  - `$ pip install sqlalchemy`
+  - `$ pip install sqlaclemy_utils`
+  - `$ pip install redirect`
+  - `$ pip install render_template`
+  
 9. In the __init__.py file, change the `client_secrets.json` line to `/var/www/catalog/catalog/client_secrets.json`
 
 10. Now configure and enable the virtual host:
@@ -157,6 +165,17 @@ application.secret_key = 'supersecretkey'
 
 15. Restart Apache server `$ sudo service apache2 restart` and enter your public IP address
 
+## Most important packages to build this app:
+  - apache2
+  - libapache2-mod-wsgi
+  - postgresql postgresql-contrib
+  - python-psycopg2 python-flask
+  - oauth2client
+  - requests
+  - httplib2
+  - render_template
+
 ## Reference
 I am thankful to the following step-by-step approach:
 https://github.com/callforsky/udacity-linux-configuration
+
